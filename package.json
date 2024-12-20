@@ -1,12 +1,15 @@
 {
   "name": "modexpedite",
-  "module": "src/main.ts",
+  "main": "src/main.ts",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "author": {
     "name": "Lancelot",
     "email": "flancelot33@gmail.com"
+  },
+  "bin": {
+    "modexpedite": "./bin/create/create.ts"
   },
   "description": "The framework to develop Minecraft Bedrock addons at the speed of light.",
   "keywords": [
@@ -22,6 +25,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@inquirer/prompts": "^7.2.0",
     "@types/uuid-1345": "^0.99.25",
     "uuid": "^11.0.3"
   }
