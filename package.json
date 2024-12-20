@@ -1,0 +1,28 @@
+{
+  "name": "modexpedite",
+  "module": "src/main.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "author": {
+    "name": "Lancelot",
+    "email": "flancelot33@gmail.com"
+  },
+  "description": "The framework to develop Minecraft Bedrock addons at the speed of light.",
+  "keywords": [
+    "minecraft",
+    "bedrock",
+    "addon",
+    "framework"
+  ],
+  "license": "MIT",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "@types/uuid-1345": "^0.99.25",
+    "uuid": "^11.0.3"
+  }
+}
