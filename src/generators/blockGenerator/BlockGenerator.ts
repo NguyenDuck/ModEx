@@ -39,7 +39,7 @@ export class BlockGenerator extends BaseGenerator {
 
     return [
       {
-        path: `behavior_pack/blocks/${this.identifier}.json`,
+        path: `behavior_pack/blocks/${this.getIdentifierSplitted()[1]}.json`,
         content: Buffer.from(JSON.stringify(this.blockBehavior, null, 2)),
       },
     ];

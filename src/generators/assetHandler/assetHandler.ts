@@ -59,4 +59,17 @@ export class AssetHandler {
       destination: destination,
     });
   }
+
+  read(
+    assetFolder: (typeof AssetHandler.prototype.assetFolders)[number],
+    filename: string
+  ): string {
+    const filePath = path.join(
+      this.config.assetsFolderPath,
+      assetFolder,
+      filename
+    );
+
+    return fs.readFileSync(filePath, 'utf-8');
+  }
 }
