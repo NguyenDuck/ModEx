@@ -195,10 +195,7 @@ export class ManifestGenerator extends BaseSingletonGenerator {
     );
 
     this.behaviorPackManifest = new BehaviorManifestBuilder(config).build();
-    this.resourcePackManifest = new ManifestV2(
-      this.UUIDGenerator.generateUUIDFromSeed('resource_manifest'),
-      this.behaviorPackManifest.manifest.header.version
-    );
+    this.resourcePackManifest = new ResourcePackManifestBuilder(config).build();
 
     return this;
   }
@@ -214,6 +211,12 @@ export class ManifestGenerator extends BaseSingletonGenerator {
           JSON.stringify(this.behaviorPackManifest.manifest, null, 2)
         ),
         path: 'behavior_pack/manifest.json',
+      },
+      {
+        content: Buffer.from(
+          JSON.stringify(this.resourcePackManifest.manifest, null, 2)
+        ),
+        path: 'resource_pack/manifest.json',
       },
     ];
   }
