@@ -26,6 +26,7 @@
   "type": "module",
   "dependencies": {
     "@inquirer/prompts": "^7.2.0",
+    "@types/node": "^22.10.2",
     "@types/uuid-1345": "^0.99.25",
     "chalk": "^5.4.0",
     "cli-loading-animation": "^1.0.6",
