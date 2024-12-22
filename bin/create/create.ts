@@ -10,8 +10,17 @@ import { createConfig } from './templates/config';
 
 const log = console.log;
 
+const getVersion = () => {
+  const packagePath = path.join(__dirname, '..', '..', 'package.json');
+  if (fs.existsSync(packagePath)) {
+    const manifest = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
+    return manifest.version;
+  }
+  return 'Unknown version';
+};
+
 log(chalk.bold.blue('Welcome to the ModExpedite Add-On creation wizard!'));
-log(chalk.bold.redBright('Version 0.0.1'), '\n');
+log(chalk.bold.redBright('Version: ', getVersion()), '\n');
 
 const action = await select({
   message: 'What do you wanna do?',
@@ -192,5 +201,43 @@ exec('bun init -y', { cwd: newCwd }, (error, stdout, stderr) => {
     );
 
     fs.writeFileSync(path.join(newCwd, 'index.ts'), createEntryPoint());
+
+    fs.readFile(path.join(newCwd, 'package.json'), 'utf8', (err, data) => {
+      if (err) {
+        return console.log(err);
+      }
+
+      const jsonData = JSON.parse(data);
+
+      jsonData.scripts = {
+        start: 'bun run --watch index.ts',
+      };
+
+      fs.writeFile(
+        path.join(newCwd, 'package.json'),
+        JSON.stringify(jsonData, null, 2),
+        'utf8',
+        (err) => {
+          if (err) {
+            return console.log(err);
+          }
+
+          log(chalk.bold.green('Project created successfully!'));
+          log(
+            chalk.bold.green(
+              'To start the compiler, run "bun start" inside the created folder.'
+            )
+          );
+
+          confirm({
+            message: 'Do you want to open the project with VSCode?',
+          }).then((answer) => {
+            if (answer === true) {
+              exec('code .', { cwd: newCwd });
+            }
+          });
+        }
+      );
+    });
   });
 });
