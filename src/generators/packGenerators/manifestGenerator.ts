@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import { v4 } from 'uuid';
 import type { File } from '../../domain/ports/FileHandlerPort';
 import type {
@@ -58,8 +59,12 @@ class UUIDGenerator {
   }
 
   private uuidFromStr(str: string): string {
+    const hash = createHash('sha256').update(str).digest('hex');
+
+    const arr = Uint8Array.from(Buffer.from(hash.slice(0, 32), 'hex'));
+
     return v4({
-      random: Uint8Array.from(Buffer.from(str)),
+      random: arr,
     });
   }
 }
@@ -131,7 +136,7 @@ class BehaviorManifestBuilder extends BaseManifestBuilder {
     m.modules = [
       {
         type: 'data',
-        uuid: this.UUIDGenerator.generateUUIDFromSeed('behavior_data'),
+        uuid: this.UUIDGenerator.generateUUIDFromSeed('data_module'),
         version: this.version,
       },
     ];
@@ -157,6 +162,20 @@ class BehaviorManifestBuilder extends BaseManifestBuilder {
       }
     }
 
+    if (
+      this.config.includeResourcePack === undefined ||
+      this.config.includeResourcePack === true
+    ) {
+      if (m.dependencies === undefined) {
+        m.dependencies = [];
+      }
+
+      m.dependencies.push({
+        uuid: this.UUIDGenerator.generateUUIDFromSeed('resource_manifest'),
+        version: this.version,
+      });
+    }
+
     return manifest;
   }
 }
@@ -173,6 +192,14 @@ class ResourcePackManifestBuilder extends BaseManifestBuilder {
     m.header.description = this.description;
     m.header.name = this.name;
     m.header.min_engine_version = this.minEngineVersion;
+
+    m.modules = [
+      {
+        type: 'resources',
+        uuid: this.UUIDGenerator.generateUUIDFromSeed('resource_module'),
+        version: this.version,
+      },
+    ];
 
     return manifest;
   }

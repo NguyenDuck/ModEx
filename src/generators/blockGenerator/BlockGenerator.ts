@@ -10,7 +10,7 @@ export class BlockGenerator extends BaseGenerator {
 
     // Initialize the blockBehavior object
     this.blockBehavior = {
-      format_version: '1.16.0',
+      format_version: '1.19.40',
       'minecraft:block': {
         description: {
           identifier: '',
