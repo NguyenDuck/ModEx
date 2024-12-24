@@ -63,7 +63,7 @@ export class BlockBasicTexturePlugin extends BasePlugin<BlockGenerator> {
       modelName = `geometry.${namespace}.${id}`;
       modelObject.description.identifier = modelName;
 
-      new ModelGenerator(id, model);
+      new ModelGenerator('blocks', id, model);
     }
 
     f['minecraft:block'].components['minecraft:geometry'] = {
@@ -76,21 +76,37 @@ export class BlockBasicTexturePlugin extends BasePlugin<BlockGenerator> {
         texture: terrainTextureName,
       },
     };
-    
+
     if (this.config.rotation === true) {
       if (f['minecraft:block'].permutations === undefined) {
         f['minecraft:block'].permutations = [];
       }
       f['minecraft:block'].permutations.push(
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'north'","components": {"minecraft:transformation": {"rotation": [0,0,0]}}},
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'south'","components": {"minecraft:transformation": {"rotation": [0,180,0]}}},
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'west'","components": {"minecraft:transformation": {"rotation": [0,90,0]}}},
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'east'","components": {"minecraft:transformation": {"rotation": [0,-90,0]}}}
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'north'",
+          components: { 'minecraft:transformation': { rotation: [0, 0, 0] } },
+        },
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'south'",
+          components: { 'minecraft:transformation': { rotation: [0, 180, 0] } },
+        },
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'west'",
+          components: { 'minecraft:transformation': { rotation: [0, 90, 0] } },
+        },
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'east'",
+          components: { 'minecraft:transformation': { rotation: [0, -90, 0] } },
+        }
       );
       if (f['minecraft:block'].description.traits === undefined) {
         f['minecraft:block'].description.traits = {};
       }
-      f['minecraft:block'].description.traits['minecraft:placement_direction'] = {"enabled_states": ["minecraft:cardinal_direction"],"y_rotation_offset": 180}
+      f['minecraft:block'].description.traits['minecraft:placement_direction'] =
+        {
+          enabled_states: ['minecraft:cardinal_direction'],
+          y_rotation_offset: 180,
+        };
     }
   }
 }
