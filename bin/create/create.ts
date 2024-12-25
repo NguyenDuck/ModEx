@@ -50,9 +50,8 @@ const invalidCharacters = [
   '|',
 ];
 
-const companyName = await input({
-  message:
-    "Write your company or studio name (Use your username if you don't have one)",
+const author = await input({
+  message: "Write your studio name (Use your username if you don't have one)",
   validate(value) {
     if (!value) {
       return 'Please enter a valid company name';
@@ -71,35 +70,25 @@ const companyName = await input({
   },
 });
 
-const projectName = await input({
-  message:
-    'Enter the shortened name of this project (e.g. if the project is called "My Awesome Project", you can use "map")',
+const namespace = await input({
+  message: 'Enter the namespace for this project',
   validate(value) {
     if (!value) {
-      return 'Please enter a valid project name';
+      return 'Please enter a valid namespace name';
     }
     for (const char of invalidCharacters) {
       if (value.includes(char)) {
-        return `Project name should not contain "${char}"`;
+        return `Namespace should not contain "${char}"`;
       }
     }
 
     if (value !== value.toLowerCase()) {
-      return 'Project name should be in lowercase';
+      return 'Namespace should be in lowercase';
     }
 
     return true;
   },
 });
-
-const namespace = `${companyName}_${projectName}`;
-
-log(
-  chalk.bold.green(
-    `The namespace for your entities, blocks and other components will be "${namespace}:"`
-  ),
-  companyName
-);
 
 const platform = process.platform;
 
@@ -195,8 +184,8 @@ exec('bun init -y', { cwd: newCwd }, (error, stdout, stderr) => {
       createConfig({
         bpPath,
         rpPath,
-        companyName,
-        projectName,
+        author: author,
+        namespacePrefix: namespace,
       })
     );
 

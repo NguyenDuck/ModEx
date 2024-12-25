@@ -9,14 +9,17 @@ type BlockFactoryConfig = {
 };
 
 export class BlockFactory extends GeneratorFactory<BlockGenerator> {
-  private block: BlockGenerator;
+  generator: BlockGenerator;
 
   constructor(config: BlockFactoryConfig) {
     super();
 
-    this.block = new BlockGenerator();
+    this.generator = new BlockGenerator();
 
-    const block = this.block;
+    this.generator.blockBehavior.format_version =
+      ManifestGenerator.getInstance().minEngineVersion;
+
+    const block = this.generator;
 
     block.blockBehavior['minecraft:block'].description.identifier = `${
       ManifestGenerator.getInstance().namespace
@@ -29,10 +32,7 @@ export class BlockFactory extends GeneratorFactory<BlockGenerator> {
   }
 
   async build(): Promise<BlockGenerator> {
-    for (const plugin of this.plugins) {
-      plugin.run(this.block);
-    }
-
-    return this.block;
+    this.runPlugins();
+    return this.generator;
   }
 }

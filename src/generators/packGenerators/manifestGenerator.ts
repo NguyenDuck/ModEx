@@ -16,6 +16,10 @@ type BasicHeaderConfig = {
    * @default auto generated
    */
   uuid?: string;
+  /**
+   * Minimum engine version required to run the pack
+   * @default '1.20.0'
+   */
   minEngineVersion?: `${number}.${number}.${number}`;
 };
 
@@ -243,6 +247,10 @@ export class ManifestGenerator extends BaseSingletonGenerator {
 
   public get author(): string {
     return this.config.author;
+  }
+
+  public get minEngineVersion(): string {
+    return this.config.minEngineVersion ?? '1.20.0';
   }
 
   async build(): Promise<File[]> {

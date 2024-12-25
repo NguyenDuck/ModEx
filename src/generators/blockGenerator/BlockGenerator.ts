@@ -5,6 +5,10 @@ import type { BlockBehavior } from './types/block';
 export class BlockGenerator extends BaseGenerator {
   public blockBehavior: BlockBehavior;
 
+  public get format_version() {
+    return this.blockBehavior.format_version;
+  }
+
   constructor() {
     super();
 
