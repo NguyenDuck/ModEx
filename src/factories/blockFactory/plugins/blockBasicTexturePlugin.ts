@@ -2,11 +2,11 @@ import {
   Texture,
   TextureHandler,
 } from '../../../generators/assetHandler/handlers/textureHandler';
-import type { BlockGenerator } from '../../../generators/blockGenerator/BlockGenerator';
+import type { BlockGenerator } from '../../../generators/behaviorPackGenerators/BlockGenerator';
 import type {
   MaterialInstance,
   MaterialInstances,
-} from '../../../generators/blockGenerator/types/block';
+} from '../../../generators/behaviorPackGenerators/blockGenerator/types/block';
 import { ModelGenerator } from '../../../generators/modelGenerator/modelGenerator';
 import { TerrainTextureGenerator } from '../../../generators/packGenerators/terrainTextureGenerator/terrainTextureGenerator';
 import { AssetHandler, ManifestGenerator } from '../../../main';

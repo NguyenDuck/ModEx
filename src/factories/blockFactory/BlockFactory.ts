@@ -1,4 +1,4 @@
-import { BlockGenerator } from '../../generators/blockGenerator/BlockGenerator';
+import { BlockGenerator } from '../../generators/behaviorPackGenerators/BlockGenerator';
 import { ManifestGenerator } from '../../generators/packGenerators/manifestGenerator';
 import type { BasePlugin } from '../plugins/basePlugin';
 import { GeneratorFactory } from '../plugins/generatorFactory';

@@ -3,7 +3,7 @@ import { BaseGenerator } from './baseGenerator';
 import { BaseSingletonGenerator } from './baseSingletonGenerator';
 
 // Generator Implementations
-import { BlockGenerator } from './blockGenerator/BlockGenerator';
+import * as bpGenerators from './behaviorPackGenerators';
 import { ManifestGenerator } from './packGenerators/manifestGenerator';
 import { TerrainTextureGenerator } from './packGenerators/terrainTextureGenerator/terrainTextureGenerator';
 
@@ -17,7 +17,7 @@ export {
   AssetHandler,
   BaseGenerator,
   BaseSingletonGenerator,
-  BlockGenerator,
+  bpGenerators,
   ManifestGenerator,
   TerrainTextureGenerator,
   TextureHandler,

@@ -1,6 +1,8 @@
+import type { BlockBehavior } from 'bpt/blocks';
+import { ManifestGenerator } from '~/main';
+import { json2buf } from '~/utils/jsonUtils';
 import type { File } from '../../domain/ports/FileHandlerPort';
 import { BaseGenerator } from '../baseGenerator';
-import type { BlockBehavior } from './types/block';
 
 export class BlockGenerator extends BaseGenerator {
   public blockBehavior: BlockBehavior;
@@ -14,7 +16,7 @@ export class BlockGenerator extends BaseGenerator {
 
     // Initialize the blockBehavior object
     this.blockBehavior = {
-      format_version: '1.19.40',
+      format_version: ManifestGenerator.getInstance().minEngineVersion,
       'minecraft:block': {
         description: {
           identifier: '',
@@ -28,6 +30,10 @@ export class BlockGenerator extends BaseGenerator {
     return this.blockBehavior['minecraft:block'].description.identifier;
   }
 
+  /**
+   * Get the identifier splitted by the colon
+   * @returns [namespace, id]
+   */
   getIdentifierSplitted(): [string, string] {
     return this.identifier.split(':') as [string, string];
   }
@@ -44,8 +50,9 @@ export class BlockGenerator extends BaseGenerator {
     return [
       {
         path: `behavior_pack/blocks/${this.getIdentifierSplitted()[1]}.json`,
-        content: Buffer.from(JSON.stringify(this.blockBehavior, null, 2)),
+        content: json2buf(this.blockBehavior),
       },
     ];
   }
 }
+export type { BlockBehavior };
