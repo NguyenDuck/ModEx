@@ -1,6 +1,6 @@
-import type { SpawnRules } from 'bpt/spawn_rules';
 import { BaseGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { SpawnRules } from '../../types/generated/behavior/spawn_rules';
 
 export class SpawnRuleGenerator extends BaseGenerator {
   public spawnRuleFile: SpawnRules;

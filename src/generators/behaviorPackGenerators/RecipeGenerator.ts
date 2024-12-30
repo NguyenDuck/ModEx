@@ -1,6 +1,6 @@
-import type { Recipe } from 'bpt/recipes';
 import { BaseGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { Recipe } from '../../types/generated/behavior/recipes';
 
 export class RecipeGenerator extends BaseGenerator {
   public recipeFile: Recipe;

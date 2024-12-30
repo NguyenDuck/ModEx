@@ -1,6 +1,6 @@
-import type { FeatureRules } from 'bpt/feature_rules';
 import { BaseGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { FeatureRules } from '../../types/generated/behavior/feature_rules';
 
 export class FeatureRuleGenerator extends BaseGenerator {
   public featureRule: FeatureRules;

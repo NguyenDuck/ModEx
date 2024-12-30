@@ -3,13 +3,13 @@ import {
   TextureHandler,
 } from '../../../generators/assetHandler/handlers/textureHandler';
 import type { BlockGenerator } from '../../../generators/behaviorPackGenerators/BlockGenerator';
-import type {
-  MaterialInstance,
-  MaterialInstances,
-} from '../../../generators/behaviorPackGenerators/blockGenerator/types/block';
 import { ModelGenerator } from '../../../generators/modelGenerator/modelGenerator';
 import { TerrainTextureGenerator } from '../../../generators/packGenerators/terrainTextureGenerator/terrainTextureGenerator';
 import { AssetHandler, ManifestGenerator } from '../../../main';
+import type {
+  MaterialInstance,
+  MaterialInstances,
+} from '../../../types/generated/behavior/blocks';
 import { BasePlugin } from '../../plugins/basePlugin';
 
 type BlockTexture =

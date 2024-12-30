@@ -1,6 +1,6 @@
-import type { LootTable } from 'bpt/loot_tables';
 import { BaseGenerator, ManifestGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { LootTable } from '../../types/generated/behavior/loot_tables';
 
 export class LootTableGenerator extends BaseGenerator {
   lootTableFile: LootTable;

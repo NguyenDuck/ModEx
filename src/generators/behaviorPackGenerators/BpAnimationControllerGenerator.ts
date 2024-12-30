@@ -1,6 +1,6 @@
-import type { AnimationController } from 'bpt/animation_controller';
 import { json2buf } from '~/utils/jsonUtils';
 import type { File } from '../../main';
+import type { AnimationController } from '../../types/generated/behavior/animation_controller';
 import { BaseGenerator } from '../baseGenerator';
 
 export class BpAnimationControllerGenerator extends BaseGenerator {

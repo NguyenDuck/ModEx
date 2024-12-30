@@ -1,6 +1,6 @@
-import type { Biomes } from 'bpt/biomes';
 import { BaseGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { Biomes } from '../../types/generated/behavior/biomes';
 
 export class BiomeGenerator extends BaseGenerator {
   public biomeFile: Biomes;

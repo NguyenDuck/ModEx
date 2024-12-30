@@ -1,6 +1,6 @@
-import type { CameraPreset } from 'bpt/cameras';
 import { BaseGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { CameraPreset } from '../../types/generated/behavior/cameras';
 
 export class CameraPresetGenerator extends BaseGenerator {
   public cameraFile: CameraPreset;

@@ -1,6 +1,6 @@
-import type { Item } from 'bpt/items';
 import { BaseGenerator, ManifestGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { Item } from '../../types/generated/behavior/items';
 
 export class BpItemGenerator extends BaseGenerator {
   public itemFile: Item;

@@ -1,6 +1,6 @@
-import type { EntityBehavior } from 'bpt/entities';
 import { json2buf } from '~/utils/jsonUtils';
 import { ManifestGenerator, type File } from '../../main';
+import type { EntityBehavior } from '../../types/generated/behavior/entities';
 import { BaseGenerator } from '../baseGenerator';
 
 export class EntityBpGenerator extends BaseGenerator {

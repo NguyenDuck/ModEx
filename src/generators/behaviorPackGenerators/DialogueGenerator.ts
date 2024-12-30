@@ -1,6 +1,6 @@
-import type { NPCDialogue } from 'bpt/dialogue';
 import { BaseGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { NPCDialogue } from '../../types/generated/behavior/dialogue';
 
 export class DialogueGenrator extends BaseGenerator {
   public dialogue: NPCDialogue;

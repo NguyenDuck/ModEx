@@ -1,4 +1,4 @@
-export * from './BiomesGenerator';
+// export * from './BiomesGenerator';
 export * from './BlockGenerator';
 export * from './BpAnimationControllerGenerator';
 export * from './BpAnimationGenerator';

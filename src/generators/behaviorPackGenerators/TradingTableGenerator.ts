@@ -1,6 +1,6 @@
-import type { Trading } from 'bpt/trading';
 import { BaseGenerator, ManifestGenerator, type File } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
+import type { Trading } from '../../types/generated/behavior/trading';
 
 export class TradingTableGenerator extends BaseGenerator {
   public tradingTableFile: Trading;

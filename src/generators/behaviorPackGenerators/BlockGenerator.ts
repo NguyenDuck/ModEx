@@ -1,7 +1,7 @@
-import type { BlockBehavior } from 'bpt/blocks';
 import { ManifestGenerator } from '~/main';
 import { json2buf } from '~/utils/jsonUtils';
 import type { File } from '../../domain/ports/FileHandlerPort';
+import type { BlockBehavior } from '../../types/generated/behavior/blocks';
 import { BaseGenerator } from '../baseGenerator';
 
 export class BlockGenerator extends BaseGenerator {
