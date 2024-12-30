@@ -19,7 +19,7 @@
     "framework"
   ],
   "license": "MIT",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "peerDependencies": {
     "typescript": "^5.7.2"
   },
