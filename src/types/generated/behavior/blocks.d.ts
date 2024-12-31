@@ -107,18 +107,22 @@ export type IsHiddenInCommands = boolean;
 /**
  * The key defines the name of a state, which must be properly namespaced. Each value is an array that contains all of the possible values of that state or an object defining a range of integers.
  */
-export type State = BlockceptionMinecraftBehaviorBlockStatesEnum | BlockceptionMinecraftBehaviorBlockStatesIntegerRange;
+export type State = CH | CI;
 /**
  * @minItems 1
  * @maxItems 16
  */
-export type BlockceptionMinecraftBehaviorBlockStatesEnum =
-  | ((BooleanStateValue[] | IntegerStateValue[] | StringStateValue[]) &
-      [
-        {
-          [k: string]: unknown;
-        }
-      ])
+export type CH = CH1 & CH2;
+export type CH1 = BooleanStateValue[] | IntegerStateValue[] | StringStateValue[];
+export type BooleanStateValue = boolean;
+export type IntegerStateValue = number;
+export type StringStateValue = string;
+export type CH2 =
+  | [
+      {
+        [k: string]: unknown;
+      }
+    ]
   | [
       {
         [k: string]: unknown;
@@ -554,9 +558,6 @@ export type BlockceptionMinecraftBehaviorBlockStatesEnum =
         [k: string]: unknown;
       }
     ];
-export type BooleanStateValue = boolean;
-export type IntegerStateValue = number;
-export type StringStateValue = string;
 /**
  * The lowest integer this state supports. This is also used as the default state value.
  */
@@ -953,7 +954,7 @@ export interface MenuCategory {
 export interface States {
   [k: string]: State;
 }
-export interface BlockceptionMinecraftBehaviorBlockStatesIntegerRange {
+export interface CI {
   values: StateIntegerValueRange;
 }
 export interface StateIntegerValueRange {

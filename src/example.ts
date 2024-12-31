@@ -15,8 +15,8 @@ const core = modExCore.getInstance();
 core.setFileHandler(basicFileHandler);
 
 ManifestGenerator.getInstance().configurate({
-  company: 'company',
-  projectName: 'project',
+  author: 'company',
+  namespacePrefix: 'project',
 });
 
 AssetHandler.getInstance().configurate({
