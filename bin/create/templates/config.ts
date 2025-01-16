@@ -1,13 +1,13 @@
 export const createConfig = ({
   bpPath,
   rpPath,
-  companyName,
-  projectName,
+  author: companyName,
+  namespacePrefix: projectName,
 }: {
   bpPath: string;
   rpPath: string;
-  companyName: string;
-  projectName: string;
+  author: string;
+  namespacePrefix: string;
 }) => `// Here all the configuration for the ModExpedite
 // framework is defined.
 
@@ -30,8 +30,8 @@ const fileConfig = new BasicFileHandler({
 });
 
 ManifestGenerator.getInstance().configurate({
-  company: \`${companyName}\`, // A short name for your company. You can also use your username
-  projectName: \`${projectName}\`, // The name of this project. This will be combined with the company to create the namespace
+  author: \`${companyName}\`, // A short name for your company. You can also use your username
+  namespacePrefix: \`${projectName}\`, // The namespace to be used for all the entities, blocks and more of this project.
 });
 
 AssetHandler.getInstance().configurate({
