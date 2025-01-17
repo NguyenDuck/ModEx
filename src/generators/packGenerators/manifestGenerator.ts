@@ -157,7 +157,7 @@ class BehaviorManifestBuilder extends BaseManifestBuilder {
                         entry: value,
                         version: [1, 0, 0],
                     });
-                    break;
+                    continue;
                 }
 
                 m.dependencies.push({
