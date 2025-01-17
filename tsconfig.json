@@ -2,6 +2,12 @@
   "compilerOptions": {
     // Enable latest features
     "lib": ["ESNext", "DOM"],
+    "paths": {
+      "~/*": ["./src/*"],
+      "gentypes/*": ["./src/types/generated/*"],
+      "bpt/*": ["./src/types/generated/behavior/*"],
+      "rpt/*": ["./src/types/generated/resource/*"],
+    },
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",

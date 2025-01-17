@@ -19,19 +19,23 @@
     "framework"
   ],
   "license": "MIT",
-  "version": "1.0.5",
+  "version": "1.1.0-beta.0",
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.7.2"
   },
   "type": "module",
   "dependencies": {
     "@inquirer/prompts": "^7.2.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.2",
+    "@types/semver": "^7.5.8",
     "@types/uuid-1345": "^0.99.25",
     "chalk": "^5.4.0",
     "cli-loading-animation": "^1.0.6",
     "jest": "^29.7.0",
+    "json-schema-to-typescript": "^15.0.3",
+    "semver": "^7.6.3",
+    "tsc": "^2.0.4",
     "uuid": "^11.0.3"
   }
 }

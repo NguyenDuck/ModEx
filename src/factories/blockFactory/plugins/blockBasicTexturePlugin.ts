@@ -1,17 +1,47 @@
-import { TextureHandler } from '../../../generators/assetHandler/handlers/textureHandler';
-import type { BlockGenerator } from '../../../generators/blockGenerator/BlockGenerator';
+import {
+  Texture,
+  TextureHandler,
+} from '../../../generators/assetHandler/handlers/textureHandler';
+import type { BlockGenerator } from '../../../generators/behaviorPackGenerators/BlockGenerator';
 import { ModelGenerator } from '../../../generators/modelGenerator/modelGenerator';
 import { TerrainTextureGenerator } from '../../../generators/packGenerators/terrainTextureGenerator/terrainTextureGenerator';
-import { AssetHandler } from '../../../main';
+import { AssetHandler, ManifestGenerator } from '../../../main';
+import type {
+  MaterialInstance,
+  MaterialInstances,
+} from '../../../types/generated/behavior/blocks';
 import { BasePlugin } from '../../plugins/basePlugin';
 
+type BlockTexture =
+  | string
+  /**
+   * MaterialInstances of the block.
+   */
+  | Record<string, Exclude<MaterialInstance, string>>;
+
 type BasicBlockTexturePluginConfig = {
-  texture: string;
+  /**
+   * Path of the texture to use on the block. The texture should either be in the `assets/texture` folder or
+   * be an object with the `textures` property that contains a MaterialInstances object.
+   *
+   * For raw textures (for example, textures that are in Minecraft vanilla), you can use the "raw:" prefix.
+   */
+  texture: BlockTexture;
+
+  /**
+   * Path of the model file to use for the block. The model should be in the `assets/models` folder.
+   */
   model?: string;
+
+  /**
+   * If the block should rotate based on the player's placement direction.
+   */
   rotation?: boolean;
 };
 
 export class BlockBasicTexturePlugin extends BasePlugin<BlockGenerator> {
+  checkVersion = BasePlugin.explicitFormatVersions(['1.20.0']);
+
   constructor(private config: BasicBlockTexturePluginConfig) {
     super();
   }
@@ -21,20 +51,78 @@ export class BlockBasicTexturePlugin extends BasePlugin<BlockGenerator> {
     const terrainTexture = TerrainTextureGenerator.getInstance();
     const [namespace, id] = b.getIdentifierSplitted();
 
-    const texture = TextureHandler.getInstance().addTexture(
-      this.config.texture,
-      'blocks/' + id
-    );
-
-    const terrainTextureName = 'b_' + id;
-
-    terrainTexture.addTexture(terrainTextureName, {
-      textures: {
-        path: texture.destinationPath,
-      },
-    });
-
     const f = b.blockBehavior;
+
+    const addedTextures: Record<string, Texture> = {};
+    const materialInstances: MaterialInstances = {
+      '*': 'black', // Default black texture to prevent errors
+    };
+
+    const removeRawPrefix = (texture: string) => {
+      if (texture.startsWith('raw:')) {
+        return texture.substring(4);
+      }
+      throw new Error(`Texture is not a raw texture: ${texture}`);
+    };
+
+    const author = ManifestGenerator.getInstance().author;
+
+    if (typeof this.config.texture === 'string') {
+      // Single texture
+      if (this.config.texture.startsWith('raw:')) {
+        materialInstances['*'] = removeRawPrefix(this.config.texture);
+      } else {
+        const texture = TextureHandler.getInstance().addTexture(
+          this.config.texture,
+          'blocks/' + id
+        );
+
+        const textureName = `block_${author}_${id}`;
+        addedTextures[textureName] = texture;
+
+        materialInstances['*'] = {
+          texture: textureName,
+        };
+      }
+    } else {
+      // Multiple textures
+      let textureId = 0;
+      for (const [key, value] of Object.entries(this.config.texture)) {
+        if (value.texture?.startsWith('raw:')) {
+          // If the texture is a raw texture, remove the prefix and pass it as is
+          materialInstances[key] = {
+            ...value,
+            texture: removeRawPrefix(value.texture),
+          };
+        } else {
+          const texture = TextureHandler.getInstance().addTexture(
+            value.texture!,
+            'blocks/' + id + '_' + textureId
+          );
+          const textureName = `block_${author}_${id}_${textureId}`;
+
+          addedTextures[textureName] = texture;
+
+          materialInstances[key] = {
+            ...value,
+            texture: textureName,
+          };
+
+          textureId++;
+        }
+      }
+    }
+
+    for (const texture of Object.entries(addedTextures)) {
+      terrainTexture.addTexture(texture[0], {
+        textures: {
+          path: texture[1].destinationPath,
+        },
+      });
+    }
+
+    f['minecraft:block'].components['minecraft:material_instances'] =
+      materialInstances;
 
     let modelName = ''; // Set when model is provided from a file
 
@@ -63,7 +151,7 @@ export class BlockBasicTexturePlugin extends BasePlugin<BlockGenerator> {
       modelName = `geometry.${namespace}.${id}`;
       modelObject.description.identifier = modelName;
 
-      new ModelGenerator(id, model);
+      new ModelGenerator('blocks', id, model);
     }
 
     f['minecraft:block'].components['minecraft:geometry'] = {
@@ -71,26 +159,37 @@ export class BlockBasicTexturePlugin extends BasePlugin<BlockGenerator> {
         ? 'minecraft:geometry.full_block'
         : modelName,
     };
-    f['minecraft:block'].components['minecraft:material_instances'] = {
-      '*': {
-        texture: terrainTextureName,
-      },
-    };
-    
+
     if (this.config.rotation === true) {
       if (f['minecraft:block'].permutations === undefined) {
         f['minecraft:block'].permutations = [];
       }
       f['minecraft:block'].permutations.push(
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'north'","components": {"minecraft:transformation": {"rotation": [0,0,0]}}},
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'south'","components": {"minecraft:transformation": {"rotation": [0,180,0]}}},
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'west'","components": {"minecraft:transformation": {"rotation": [0,90,0]}}},
-        {"condition": "q.block_state('minecraft:cardinal_direction') == 'east'","components": {"minecraft:transformation": {"rotation": [0,-90,0]}}}
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'north'",
+          components: { 'minecraft:transformation': { rotation: [0, 0, 0] } },
+        },
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'south'",
+          components: { 'minecraft:transformation': { rotation: [0, 180, 0] } },
+        },
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'west'",
+          components: { 'minecraft:transformation': { rotation: [0, 90, 0] } },
+        },
+        {
+          condition: "q.block_state('minecraft:cardinal_direction') == 'east'",
+          components: { 'minecraft:transformation': { rotation: [0, -90, 0] } },
+        }
       );
       if (f['minecraft:block'].description.traits === undefined) {
         f['minecraft:block'].description.traits = {};
       }
-      f['minecraft:block'].description.traits['minecraft:placement_direction'] = {"enabled_states": ["minecraft:cardinal_direction"],"y_rotation_offset": 180}
+      f['minecraft:block'].description.traits['minecraft:placement_direction'] =
+        {
+          enabled_states: ['minecraft:cardinal_direction'],
+          y_rotation_offset: 180,
+        };
     }
   }
 }

@@ -62,10 +62,12 @@ export class TextureHandler {
 
     const assetHandler = this.assetHandler;
 
-    const projectNamespace =
-      ManifestGenerator.getInstance().namespace.split('_');
+    const manifest = ManifestGenerator.getInstance();
 
-    const finalPath = `textures/${projectNamespace[0]}/${projectNamespace[1]}/${destinationPath}`;
+    const author = manifest.author;
+    const projectNamespace = manifest.namespace;
+
+    const finalPath = `textures/${author}/${projectNamespace}/${destinationPath}`;
     assetHandler.clone(
       'textures',
       assetsPath,
